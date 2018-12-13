@@ -1,6 +1,5 @@
 from itertools import combinations
-from numpy import array, ones
-from abc import ABCMeta, abstractmethod
+from numpy import  ones
 from data_structures import *
 
 
@@ -227,7 +226,7 @@ class VisitAttack(Attack):
             matched depending on the precision specified. So, for instance, if precision is "Day", the timestamps of the
             visits will be matched up to the day, neglecting hour, minute and second.
         """
-        super().__init__(k)
+        super(VisitAttack, self).__init__(k)
         if precision not in VisitAttack.precision_levels:
             raise ValueError
         self.precision = precision
@@ -329,7 +328,7 @@ class FrequencyAttack(Attack):
             is 0.9, and the frequency of the visit in the instance is 10, it will match a visit in the individual record
             if it has the same location and at least frequency of 9.
         """
-        super().__init__(k)
+        super(FrequencyAttack, self).__init__(k)
         if tolerance < 0 or tolerance > 1:
             raise ValueError
         self.tolerance = tolerance
@@ -375,7 +374,8 @@ class FrequencyAttack(Attack):
                 break
         return has_match
 
-    class ProbabilityAttack(Attack):
+
+class ProbabilityAttack(Attack):
         """
         Probability attack on probability vectors. Each instance is considered as a sequence of locations and their
         probability of visit is also considered. It is also possible to specify a tolerance level.
@@ -400,7 +400,7 @@ class FrequencyAttack(Attack):
                 the tolerance is 0.1, and the probability of the visit in the instance is 0.85, it will match a visit in
                 the individual record if it has the same location and a probability in the range [0.75,0.95]
             """
-            super().__init__(k)
+            super(ProbabilityAttack, self).__init__(k)
             if tolerance < 0 or tolerance > 1:
                 raise ValueError
             self.tolerance = tolerance
@@ -474,7 +474,7 @@ class ProportionAttack(Attack):
             in the individual record if there are two visits with the same locations that have a proportion between
             their frequencies that lies between 0.2 and 0.6.
         """
-        super().__init__(k)
+        super(ProportionAttack, self).__init__(k)
         if tolerance < 0 or tolerance > 1:
             raise ValueError
         self.tolerance = tolerance
@@ -566,10 +566,6 @@ class HomeWorkAttack(Attack):
 
         Parameters
         ----------
-        k: int
-            parameter that defines the background knowledge configuration. It represents the quantity of information
-            that the adversary has. So, for example, if k = 2, the adversary will, ipothetically, know any combination
-            of the visits of a users of length 2.
         tolerance: float
             can be any number between 0 and 1. The tolerance is used as a percentage: each visit in the instance
             will match if there is a visit in the individual record with the same location and that has a frequency
@@ -577,7 +573,8 @@ class HomeWorkAttack(Attack):
             is 0.9, and the frequency of the visit in the instance is 10, it will match a visit in the individual record
             if it has the same location and at least frequency of 9.
         """
-        super().__init__(HomeWorkAttack.HomeWorkK)
+        # super().__init__(HomeWorkAttack.HomeWorkK)
+        super(HomeWorkAttack, self).__init__(HomeWorkAttack.HomeWorkK)
         if tolerance < 0 or tolerance > 1:
             raise ValueError
         self.tolerance = tolerance
